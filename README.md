@@ -47,7 +47,7 @@ models/            Pydantic request/response schemas + Role enum
 routes/
   auth.py          register, login, refresh (rotation), logout (revocation)
   users.py         /users/me, /users/ (admin), PATCH /users/{id}/role (admin)
-  items.py         item CRUD; delete is admin-only
+  items.py         item create/read/delete; delete is admin-only
 tests/             pytest suite (auth, RBAC, items)
 scripts/benchmark.py   load/latency benchmark
 ```
@@ -166,4 +166,5 @@ pytest                         # 26 tests: auth, RBAC, items
 
 The suite recreates the schema before each test for isolation and covers token
 generation/validation, refresh rotation, logout revocation, token-type
-confusion, RBAC enforcement, privilege-escalation hardening, and item CRUD.
+confusion, RBAC enforcement, privilege-escalation hardening, and item
+create/read/delete.
