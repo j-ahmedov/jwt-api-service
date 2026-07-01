@@ -1,0 +1,105 @@
+### Health check (public)
+GET http://127.0.0.1:8000/health
+Accept: application/json
+
+###
+
+### Register a new user (always created with role "user")
+POST http://127.0.0.1:8000/auth/register
+Content-Type: application/json
+
+{
+  "username": "demo",
+  "email": "demo@example.com",
+  "password": "demo1234"
+}
+
+###
+
+### Login as admin (bootstrap account)
+# Use the ADMIN_USERNAME / ADMIN_PASSWORD from your .env — do not hardcode them here.
+# Copy access_token → use as Bearer in subsequent requests.
+POST http://127.0.0.1:8000/auth/login
+Content-Type: application/json
+
+{
+  "username": "<YOUR_ADMIN_USERNAME>",
+  "password": "<YOUR_ADMIN_PASSWORD>"
+}
+
+###
+
+### Login as regular user (the demo account registered above)
+POST http://127.0.0.1:8000/auth/login
+Content-Type: application/json
+
+{
+  "username": "demo",
+  "password": "demo1234"
+}
+
+###
+
+### Get own profile (any authenticated user)
+GET http://127.0.0.1:8000/users/me
+Authorization: Bearer <PASTE_ACCESS_TOKEN_HERE>
+
+###
+
+### List all users — admin only (use admin token; demo user gets 403)
+GET http://127.0.0.1:8000/users/
+Authorization: Bearer <PASTE_ADMIN_TOKEN_HERE>
+
+###
+
+### Promote a user to admin — admin only (set {user_id} to the target's id)
+PATCH http://127.0.0.1:8000/users/2/role
+Authorization: Bearer <PASTE_ADMIN_TOKEN_HERE>
+Content-Type: application/json
+
+{
+  "role": "admin"
+}
+
+###
+
+### List items (any authenticated user)
+GET http://127.0.0.1:8000/items/
+Authorization: Bearer <PASTE_ACCESS_TOKEN_HERE>
+
+###
+
+### Create item (any authenticated user)
+POST http://127.0.0.1:8000/items/
+Authorization: Bearer <PASTE_ACCESS_TOKEN_HERE>
+Content-Type: application/json
+
+{
+  "name": "Widget Pro",
+  "price": 19.99
+}
+
+###
+
+### Delete item — admin only (demo user gets 403)
+DELETE http://127.0.0.1:8000/items/1
+Authorization: Bearer <PASTE_ADMIN_TOKEN_HERE>
+
+###
+
+### Refresh access token (use refresh_token from login response)
+POST http://127.0.0.1:8000/auth/refresh
+Authorization: Bearer <PASTE_REFRESH_TOKEN_HERE>
+
+###
+
+### Logout (revokes both access and refresh tokens)
+POST http://127.0.0.1:8000/auth/logout
+Authorization: Bearer <PASTE_ACCESS_TOKEN_HERE>
+Content-Type: application/json
+
+{
+  "refresh_token": "<PASTE_REFRESH_TOKEN_HERE>"
+}
+
+###
